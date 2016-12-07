@@ -6,10 +6,12 @@
 base = 0.8;
 
 //Minkowski radius
-mink_r = 1.5;
+mink_r = 0.5;
 
 // Hole diameter
 hole_diam = 6 * base + 0.25; // +0.2 added because of small holes
+outer_hole_diam = 6.1;
+outer_hole_deep = 0.9;
 
 // Hole spacing
 hole_space = 10 * base;
