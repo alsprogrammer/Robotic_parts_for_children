@@ -54,7 +54,46 @@ module more_90_angled_beam(length, width, angle=135) {
     }
 }
 
-beam(17);
-//translate([0, 10, 0]) beam(17);
-//translate([0, 20, 0]) beam(7);
-//translate([0, 30, 0]) beam(7);
+module motor_wheel_adapter() {
+    difference () {
+        union() {
+            translate([- beam_element_length, - beam_width / 2, 0])
+                cube([2 * beam_element_length, beam_width, beam_height]);
+            translate([- beam_element_length, 0, 0])
+                cylinder(d=beam_width, h=beam_height, $fn=30);
+            translate([beam_element_length, 0, 0])
+                cylinder(d=beam_width, h=beam_height, $fn=30);
+        }
+        union() {
+              translate([- hole_space, 0, 0])
+                  beam_hole();
+              translate([hole_space, 0, 0])
+                  beam_hole();
+              difference () {
+                  cylinder(d = 3, h = beam_height, $fn = 30);
+                  translate ([1, -1.5, 0])
+                      cube ([1, 3, beam_height]);
+              }
+        }
+    }
+}
+
+beam(5);
+translate([0, 10, 0])
+   beam(5);
+translate([0, 20, 0])
+   beam(5);
+translate([0, 30, 0])
+   beam(5);
+translate([0, 40, 0])
+   beam(7);
+translate([0, 50, 0])
+   beam(7);
+translate([0, 60, 0])
+   beam(7);
+translate([0, 70, 0])
+   beam(7);
+//beam(9);
+//beam(11);
+//beam(13);
+//beam(15);
