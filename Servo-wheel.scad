@@ -7,8 +7,18 @@
 //-------------------------------------------------------------
 
 //-- Wheel parameters
-wheel_or_idiam = 50;                   //-- O-ring inner diameter
-wheel_or_diam = 3;                     //-- O-ring section diameter
+include <bitbeam_constants.scad>;
+module beam_hole() {
+    union () {
+	    cylinder(d=hole_diam, h=beam_height, $fn=30);
+	    cylinder(d=outer_hole_diam, h=outer_hole_deep, $fn=30);
+		translate ([0, 0, beam_height - outer_hole_deep])
+	        cylinder(d=outer_hole_diam, h=outer_hole_deep, $fn=30);
+	}
+}
+
+wheel_or_idiam = 36;                   //-- O-ring inner diameter
+wheel_or_diam = 19.5;                     //-- O-ring section diameter
 wheel_height = 2*wheel_or_diam+0;     //-- Wheel height: change the 0 for 
                                       //-- other value (0 equals minimun height)
 //-- Parameters common to all horns
@@ -208,7 +218,7 @@ module Servo_wheel_6_arm_horn()
       cylinder(center=true, h=2*wheel_height + 10, r=a6h_center_diam/2,$fn=20);
 
       //-- substract the 6-arm horn
-      translate([0,0,horn_height-horn_plate_height])
+      translate([0,0,wheel_height-horn_plate_height])
       horn6(h=wheel_height);
 
       //-- Horn drills
@@ -216,11 +226,67 @@ module Servo_wheel_6_arm_horn()
   }
 }
 
+module Espander() {
+    rotate_extrude(convexity = 10, $fn = 100)
+        translate([wheel_or_idiam / 2 + wheel_or_diam / 2, 0, 0])
+            circle(r = wheel_or_diam / 2, $fn = 100);
+}
+
+module Espander_wheel_6_arm_horn()
+{
+  difference() {
+      difference () {
+          cylinder(center=true, h=wheel_or_diam, r=wheel_or_idiam / 2 + wheel_or_diam / 2,$fn=100);
+          Espander();
+      }
+
+       //-- Inner drill
+      cylinder(center=true, h=2*wheel_height + 10, r=a6h_center_diam/2,$fn=20);
+
+      //-- substract the 6-arm horn
+      translate([0,0,wheel_or_diam / 2 - horn_plate_height / 2])
+          horn6(h=horn_plate_height);
+
+      //-- Horn drills
+      horn_drills(d=a6h_drill_distance, n=6, h=wheel_height);
+  }
+}
+
+module Lego_holes_set () {
+   union () {
+       translate ([hole_space, 0, 0])
+          beam_hole();
+       translate ([- hole_space, 0, 0])
+          beam_hole();
+       translate ([hole_space, 0, -hole_space])
+          beam_hole();
+       translate ([- hole_space, 0, -hole_space])
+          beam_hole();
+   }
+}
+
+module Espander_wheel_lego_hole()
+{
+  difference() {
+      difference () {
+          cylinder(center=true, h=2 * beam_height, r=wheel_or_idiam / 2 + wheel_or_diam / 2 - 7,$fn=100);
+          Espander();
+      }
+
+      //-- substract the 6-arm horn
+      union () {
+          Lego_holes_set ();
+          rotate([0, 0, 90])
+              Lego_holes_set ();
+      }
+  }
+}
+
 
 //-- Test!
 //Servo_wheel_rounded_horn();
 //translate([wheel_or_idiam+10,0,0]) Servo_wheel_4_arm_horn();
-translate([-wheel_or_idiam-10,0,0]) Servo_wheel_6_arm_horn();
-
-
+//translate([-wheel_or_idiam-10,0,0]) 
+//Espander();
+Espander_wheel_lego_hole();
 
