@@ -78,13 +78,74 @@ module motor_wheel_adapter() {
     }
 }
 
-ninty_angled_beam(6, 4);
-translate([10, 10, 0])
-   ninty_angled_beam(6, 4);
-translate([20, 20, 0])
-   ninty_angled_beam(6, 4);
-translate([30, 30, 0])
-   ninty_angled_beam(6, 4);
+module beam_end() {
+    difference() {
+        union() {
+           minkowski() {
+                cube([beam_element_length/2 - 2*mink_r, beam_width - 2*mink_r, beam_height - 2*mink_r]);
+                sphere(r=mink_r);
+            };
+            translate([beam_element_length/2 - mink_r,beam_element_length/2 - mink_r,0]) {
+                minkowski() {
+                cylinder(d = beam_element_length - 2*mink_r, h = beam_height - 2*mink_r, $fn = 30);
+                sphere(r=mink_r);
+                };
+            }    
+        }
+        translate ([beam_element_length/2 - mink_r,beam_element_length/2 - mink_r,-mink_r]) {
+            beam_hole ();
+        }
+    }
+}
 
-//translate ([0, 65, 0])
-//   motor_wheel_adapter();
+module rounded_beam(length) {
+    translate ([-beam_element_length / 2, -beam_width / 2, 0])
+        union () {
+            translate ([0, 0, 0]) {
+                difference() {
+                    beam(length - 1);
+                    cube(beam_element_length, beam_width, beam_height);
+                }
+            }
+            translate ([beam_element_length * (length - 1) + mink_r, mink_r, mink_r]) {
+                beam_end();
+            }
+            translate ([beam_element_length - mink_r, mink_r, mink_r]) {
+                minkowski() {
+                    cube([2*mink_r, beam_width - 2 * mink_r, beam_height - 2*mink_r]);
+                    rotate ([0, 90, 0]) 
+                        cylinder(r = mink_r, h = mink_r);
+                };
+            }
+            translate ([beam_element_length * (length - 1) - mink_r, mink_r, mink_r]) {
+                minkowski() {
+                    cube([2*mink_r, beam_width - 2 * mink_r, beam_height - 2*mink_r]);
+                    rotate ([0, 90, 0]) 
+                        cylinder(r = mink_r, h = mink_r);
+                };
+            }
+            translate ([beam_element_length - mink_r, beam_width - mink_r, mink_r]) {
+                rotate([0, 0, 180]) {
+                    beam_end();
+                }
+            }
+        }
+}
+
+module ninty_angled__rounded_beam(length, width) {
+    more_90_angled_rounded_beam(length, width, 90);
+}
+
+module more_90_angled_rounded_beam(length, width, angle=135) {
+    union() {
+        rotate ([0, 0, angle])
+            rounded_beam(width);
+        rounded_beam(length);
+    }
+}
+
+rounded_beam(7);
+translate ([0, 10, 0])
+    ninty_angled__rounded_beam(7, 5);
+translate ([0, 55, 0])
+    more_90_angled_rounded_beam(7, 5);
