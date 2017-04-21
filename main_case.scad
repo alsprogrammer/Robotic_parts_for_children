@@ -80,6 +80,7 @@ module bottom_part() {
 //    bottom_part_length = main_plate_length + luft;
     bottom_part_length = 15 * beam_width - 2 * wall_thikness;
     bottom_part_length_w_walls = bottom_part_length + 2 * wall_thikness;
+    switch_z_position = battery_holder_height + battery_compartment_cover_whole_height - switch_height;
 
     translate([- beam_width / 2 + wall_thikness, beam_width / 2 + wall_thikness, wall_thikness]) {
         difference() {
@@ -127,7 +128,7 @@ module bottom_part() {
             
             // switch hole
             translate([bottom_part_length, switch_y_position, switch_z_position])
-                cube([wall_thikness, switch_width, switch_height]);
+                cube([wall_thikness, switch_width, switch_height + luft]);
 
             // battery compartment hole
                 translate([rpi_width + rpi_usb_ext + luft + wall_thikness, (bottom_part_width - (battery_holder_width + 2 * wall_thikness)) / 2 + wall_thikness, - wall_thikness])
@@ -243,8 +244,8 @@ module cover_part() {
     }
 }
                 
-//bottom_part();
+bottom_part();
 
 //middle_part();
 
-cover_part();
+//cover_part();
