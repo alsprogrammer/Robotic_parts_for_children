@@ -1,6 +1,6 @@
 # Robotics Parts for 3D print
 Robic construction set – parts in STL format for 3D print.
-This set is derived from [Bitbeam Repository] (https://github.com/bitbeam/bitbeam/wiki/The-Bitbeam-project), but now it is almost completely reworked. 
+This set is derived from [Bitbeam Repository](https://github.com/bitbeam/bitbeam/wiki/The-Bitbeam-project), but now it is almost completely reworked.
 
 ## What is Robic construction set?
 
@@ -10,7 +10,13 @@ The elements of the set can be tied together using M4 bolts and nuts, or using L
 
 ## Why Robic construction set?
 
-It is aimed to STEM education. You can build your own robot, using universal parts, tiding them up using usual fasteners like ones being used in the real world. 
+It is aimed to STEM education. You can build your own robot, using universal parts, tiding them up using usual fasteners like ones being used in the real world.
+
+## Special thanks to
+
+* Matthew Beckler for his amazing Arduino dimensions diagram
+* [Jason Huggins](http://www.thingiverse.com/hugs/about) for the inspiration for creating my own beam design
+* Juan Gonzalez for his great design of servo mounting wheel
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />
 This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
